@@ -1,0 +1,12 @@
+{initialCollection:'Movies', pipeline:[
+	{$match:{genres:{$in:["Drama"]}}},
+	{$match:{year:{$exists:true}}},
+	{$match:{rating: {$gt: 7}}},
+	{$sort: {year: 1}},
+	{$group: {_id: 1, yr : {$push: "$year"}}},
+	{$project: {min: {$min: "$yr"}, max: {$max: "$yr"}, median: { $arrayElemAt: ["$yr", {$trunc :{$divide:[{$size : "$yr"}, 2]}} ] },
+	q1 : { $arrayElemAt: ["$yr", {$trunc :{$divide:[{$trunc :{$divide:[{$size : "$yr"}, 2]}} , 2 ]}}]},
+	q3: {$arrayElemAt: ["$yr", {$multiply:[{$trunc :{$divide:[{$trunc :{$divide:[{$size : "$yr"}, 2]}} , 2 ]}} ,3]} ] }
+
+}}
+]}

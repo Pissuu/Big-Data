@@ -1,0 +1,33 @@
+{initialCollection:'MoviesDenorm', pipeline:[
+{ $match: { genres: { $in : ['Comedy']}}},
+{ $unwind: "$actors"},
+{ $group : { _id : "$actors",
+count : { $sum:1}}},
+{ $match:{ count: { $gt : 25}}},
+{ $lookup : { 
+	from : "PeopleDenorm",
+	localField: "_id",
+	foreignField:"_id",
+	as: "actors1"
+	}
+},
+{ $unwind: "$actors1"},
+{ $match : { "actors1.deathYear": { $exists : false}}},
+
+{ $unwind: "$actors1.moviesDirected"},
+{ $lookup : { 
+	from : "MoviesDenorm",
+	localField: "actors1.moviesDirected",
+	foreignField:"_id",
+	as: "directors"
+	}
+},
+{ $unwind : "$directors"},
+{ $match : {"directors.genres" : { $in : ["Action"]} }},
+{ $group: {_id : "$actors1._id",
+	name : { "$addToSet" : "$actors1.name"},
+	count: { $sum:1} }},
+{ $match : { count:{ $gt :1}}},
+{ $unwind:  "$name"},
+{ $project: { count:0}}
+]}

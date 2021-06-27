@@ -1,0 +1,7 @@
+{initialCollection:'Movies', pipeline:[
+	{$match:{year:{$gte:2000, $lte:2015}}},
+	{$unwind: '$genres'},
+	{$match:{rating: {$exists: true}}},
+	{$group: {_id: {"x":'$genres',"y":'$rating', },'count': { $sum: 1}}},
+	{$match:{count:{$gt:250}}}
+]}

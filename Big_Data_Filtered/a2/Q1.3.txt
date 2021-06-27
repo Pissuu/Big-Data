@@ -1,0 +1,17 @@
+select m1.id, m1.runtime
+from movie as m1
+join moviegenre as mg
+on mg.mid = m1.id
+join genre as g
+on g.id = mg.gid
+join movie as m2
+on m2.title like concat(m1.title, "%")
+where m1.year >= 1980 
+and g.name = "comedy"
+and m1.year <= 1999
+and m1.rating > 7.0
+and m1.votes > 10000
+and m1.year < 1999
+and m2.year > m1.year
+and m2.year <= 1999
+group by m1.id;

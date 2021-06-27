@@ -1,0 +1,26 @@
+select r1.q1, r1.q2
+from
+			(select w.pid q1, count(w.pid) q2
+			from writer as w
+			join movie as m
+			on m.id = w.mid
+			join moviegenre as mg
+			on mg.mid = m.id
+			join genre as g
+			on g.id = mg.gid
+			where g.name = "action"
+			group by w.pid
+			having count(w.pid) >= 15)r1
+where r1.q1 not in
+		(select w.pid
+		from writer as w
+		join movie as m
+		on m.id = w.mid
+		join moviegenre as mg
+		on mg.mid = m.id
+		join genre as g
+		on g.id = mg.gid
+		where g.name = "romance")
+and r1.q1 in
+	(select actor.pid
+    from actor);

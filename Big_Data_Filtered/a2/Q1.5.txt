@@ -1,0 +1,24 @@
+select r2.q1, r2.q2
+from (select r1.q1, r1.q2
+from
+(select actor.pid q1, count(actor.pid) q2
+from actor
+join moviegenre
+on actor.mid = moviegenre.mid
+join genre
+on genre.id = moviegenre.gid
+where genre.name = "drama"
+group by actor.pid) r1
+where r1.q2 >= 2
+and r1.q1 not in
+(select actor.pid
+from actor
+join moviegenre
+on actor.mid = moviegenre.mid
+join genre
+on genre.id = moviegenre.gid
+where genre.name = "comedy")) r2
+where r2.q1 in 
+(select person.id
+from person 
+where person.name like "% Patel" or person.name like "% Raj");

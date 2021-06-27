@@ -1,0 +1,12 @@
+{initialCollection:'MoviesDenorm', pipeline:[
+
+{$match:{genres:"Sci-Fi", year:{$gte:1970, $lte:1990}}},
+{$lookup:{from:"PeopleDenorm", localField:"writers", foreignField:"_id", as : "writName"}},
+{$unwind:'$writName'},
+{$match:{'writName.deathYear':{$exists:false}}},
+{$group:{_id: '$writName._id', 'cnt': { $sum: 1}}},
+{$match:{cnt:{$gt:5}}}
+
+]}
+
+

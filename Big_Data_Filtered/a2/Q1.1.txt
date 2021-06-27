@@ -1,0 +1,20 @@
+select distinct a.pid 
+from actor as a
+where a.pid in 
+(select id 
+from person 
+where person.deathYear is null)
+and a.pid not in
+(select a.pid 
+from actor as a
+join movie
+on movie.id = a.mid
+where movie.year > 2016
+and movie.year < 2021)
+and a.pid in
+(select a.pid 
+from actor as a
+join movie
+on movie.id = a.mid
+where movie.year = 2016
+and movie.runtime > 200)

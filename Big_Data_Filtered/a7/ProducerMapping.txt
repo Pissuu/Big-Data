@@ -1,0 +1,3 @@
+CREATE OR REPLACE VIEW Producer_G(pid, mid) AS 
+select s2.pid, s2.mid
+from S2_Producer as s2;

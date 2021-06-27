@@ -1,0 +1,9 @@
+CREATE OR REPLACE VIEW Movie_G(id, title, year, rating, genre) AS
+select s1.id, s1.title, s1.year, s1.rating, "Comedy"
+from S1_Movie as s1
+union
+select s2.id, s2.title, s2.year, null, "Action"
+from S2_Movie as s2
+union
+select s3.id, s3.title, s3.year, s3.rating, "Drama"
+from S3_Movie as s3;

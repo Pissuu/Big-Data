@@ -1,0 +1,17 @@
+select a.pid, a.average, a.counted
+from (select pid, count(pid) counted, round(avg(m.rating),2) average
+from director as d
+join movie as m
+on m.id = d.mid
+join moviegenre as mg
+on mg.mid = m.id
+join genre as g
+on g.id = mg.gid
+where g.name = "Sci-Fi"
+and m.votes > 1000
+group by d.pid
+) a
+where a.counted >= 5
+order by average
+limit 25;
+

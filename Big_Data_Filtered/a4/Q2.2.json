@@ -1,0 +1,9 @@
+{initialCollection:'PeopleDenorm', pipeline:[
+
+{$match:{name:/^Kathryn.*/}},
+{$lookup:{from:"MoviesDenorm", localField:"moviesDirected", foreignField:"_id", as: "dirName"}},
+{$unwind:'$dirName'},
+{$match:{'dirName.genres':"Horror",'dirName.runtime':{$lt:100}}},
+{$project: {_id:1}}
+]}
+

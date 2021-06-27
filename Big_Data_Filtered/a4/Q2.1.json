@@ -1,0 +1,8 @@
+{initialCollection:'MoviesDenorm', pipeline:[
+
+{$match:{genres:"Drama",year:{$gte:2015, $lte:2020},rating:{$gt:7}}},
+  {$unwind: '$directors'},
+  {$group: {_id: '$_id', 'sum': { $sum: 1}}},
+  {$match: {sum:{$gt:10}}},
+{$project: {sum:0}}
+]}

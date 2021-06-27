@@ -1,0 +1,27 @@
+select director.pid, round(avg(movie.rating),2), count(director.pid)
+from director 
+join movie on movie.id = director.mid
+where director.mid in
+	(select movie.id
+	from director 
+    join person
+    on person.id = director.pid
+	join movie
+	on movie.id = director.mid
+	join moviegenre
+	on moviegenre.mid = director.mid
+	join genre
+	on genre.id = moviegenre.gid
+    where match(person.name) against ("Steve") 
+    and movie.rating is not null
+	and (genre.name = "action" or genre.name = "drama")
+	and movie.id in 
+			(select director.mid q1
+			from director
+			join movie
+			on movie.id = director.mid
+			group by director.mid
+			having count(movie.id) = 1)
+	group by movie.id) 
+group by director.pid
+having count(director.pid)>=10;

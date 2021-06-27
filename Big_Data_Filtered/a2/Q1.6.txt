@@ -1,0 +1,21 @@
+select r1.q1
+from(select actor.pid q1
+from actor 
+where actor.mid in
+		(select director.mid
+		from director 
+		where director.pid =
+				(select person.id
+				from person 
+				where person.name = "Sofia Coppola")))r1
+where r1.q1 in
+(select actor.pid
+from actor 
+where actor.mid in
+		(select actor.mid 
+        from actor 
+        where actor.pid =
+			(select person.id 
+			from person
+			where person.name = "Antonio Banderas")))
+group by r1.q1;

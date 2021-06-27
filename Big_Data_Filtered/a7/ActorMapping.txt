@@ -1,0 +1,3 @@
+CREATE OR REPLACE VIEW Actor_G(pid, mid) AS 
+select s1.pid, s1.mid
+from S3_Actor as s1;

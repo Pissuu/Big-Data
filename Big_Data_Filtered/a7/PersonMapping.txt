@@ -1,0 +1,14 @@
+CREATE OR REPLACE VIEW Person_G(id, name, alive) AS 
+select s1.pid, s1.name, 1
+from S1_Director as s1
+where s1.deathYear is null
+union
+select s1.pid, s1.name, 0
+from S1_Director as s1
+where s1.deathYear > 0
+union
+select s2.pid, s2.name, null
+from S2_Producer as s2
+union
+select s3.pid, null, null
+from S3_Actor as s3;

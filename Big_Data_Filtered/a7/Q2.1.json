@@ -1,0 +1,6 @@
+{initialCollection:'Movies', pipeline:[
+	{$match:{genres:{$in:["Action"]},year:{$gte:1990, $lte:1999}}},
+	{$match:{rating: {$exists: true}}},
+	{$group: {_id: '$rating', 'count': { $sum: 1}}}  
+	
+]}

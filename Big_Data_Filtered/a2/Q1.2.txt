@@ -1,0 +1,26 @@
+select pid, count(pid)
+from actor
+join movie 
+on movie.id = actor.mid
+where movie.isAdult = True
+and actor.pid in
+(select actor.pid
+from actor 
+join movie
+on movie.id = actor.mid
+where movie.isAdult = True
+and movie.year = 2020)
+and actor.pid not in
+(select actor.pid
+from actor 
+join movie
+on movie.id = actor.mid
+where movie.isAdult = True 
+and movie.year <= 2019)
+and actor.pid in 
+(select person.id 
+from person
+where person.deathYear is null)
+group by pid
+order by count(pid) desc
+limit 15;

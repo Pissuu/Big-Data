@@ -1,0 +1,18 @@
+select distinct writer.pid
+from movie 
+join writer
+on writer.mid = movie.id
+where match(movie.title)
+against('Jesus' )
+and match(movie.title)
+against('Christ' )
+and movie.rating > (
+select max(movie.rating)
+from movie
+join director 
+on director.mid = movie.id
+where director.pid in(
+select person.id
+from person
+where match(person.name) against ('"Edward D. Wood Jr."' in boolean mode)));
+

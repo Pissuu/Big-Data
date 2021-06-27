@@ -1,0 +1,8 @@
+{initialCollection:'Movies', pipeline:[
+	{$match:{genres:{$in:["Comedy"]}}},
+	{$match:{rating: {$exists: true}}},
+	{$match:{votes: {$exists: true}}},
+	{$match:{votes: {$gt: 10000}}},
+	{$group: {_id: {"x":'$year'}, 'average': { $avg:"$rating"}}},
+  	{$project: {_id: {"x":"$_id.x", "y": "$average"}}}
+]}

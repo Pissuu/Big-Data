@@ -1,0 +1,11 @@
+{initialCollection:'MoviesDenorm', pipeline:[
+
+{$match:{genres:"Sci-Fi"}},
+{$unwind:"$actors"},
+{$group:{_id:"$actors",'sum':{$sum:1}}},
+{$match:{sum:{$gt:7}}},
+{$lookup:{from:"People", localField:"_id", foreignField:"_id", as : "actName"}},
+{$unwind:"$actName"},
+{$group:{_id:{"by":"$actName.birthYear","dy":"$actName.deathYear"},actors:{$push:"$actName.name"}}},
+
+]}

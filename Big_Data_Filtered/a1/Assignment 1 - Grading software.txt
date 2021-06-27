@@ -1,0 +1,21 @@
+The grading software is expecting a schema. You can create it as follows: CREATE DATABASE imdb_ibd_a1;
+
+You must create a database user and password. Let's assume it is user 'u' with password 'p'. You need to grant persmissions to u over imdb_ibd_a1.
+
+Once your code works, you can must the grading software to understand how your program will be evaluated. You must compile and install the grading software first using 'gradlew build' and 
+'gradlew install' (you may need to give execution permissions to gradlew).
+
+You must run the grading software as follows:
+
+./build/install/IMDBToSQL/bin/IMDBToSQL u p IMDB_FOLDER A1_FOLDER {false|true}
+
+u and p are user and password for MySQL server discussed above. IMDB_FOLDER is the folder containing all IMDB files.
+ A1_FOLDER is the folder to student solutions. You should have your IMDBToSQL Gradle project inside a folder that is your RIT username 
+(RIT email without '@rit.edu'). The final parameter indicates whether it is a Windows system or not 
+(true, you are running the grading software on a Windows machine; no, you are running the grading software in a UN*X machine).
+
+The grading software will destroy all tables inside the given schema (see comment '// Destroy all existing tables!').
+ Make sure to comment these out if you do not want to remove the tables.
+
+The StreamGobbler ('StreamGobbler gobbler = new StreamGobbler(process.getInputStream(), false);') is the piece of code responsible for gathering the output of your program.
+ By default, this output will be discarded (false). If you want to see the output of your program, you should change it to true.

@@ -1,0 +1,11 @@
+{initialCollection:'MoviesDenorm', pipeline:[
+
+{$match:{genres:"Comedy",votes:{$gt:10000},producers:{$exists:true,$not:{$size:0}}}},
+{$lookup:{from:"PeopleDenorm", localField:"producers", foreignField:"_id", as: "prodName"}},
+{$match:{'prodName.deathYear':{$exists:false}}},
+{$project:{rating:1,cnt: { $size:"$producers" }, producers:1}},
+{$match:{cnt:{$gt:4}}}
+
+]}
+
+
